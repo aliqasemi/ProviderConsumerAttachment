@@ -15,12 +15,12 @@ type (
 		Role            string `json:"role" form:"role" query:"role" param:"role" bson:"role,omitempty" validate:""`
 		Email           string `json:"email" form:"email" query:"email" param:"email" bson:"email,omitempty" validate:"required,email"`
 	}
+	UserValidation interface {
+		validate(input *UserInput) (bool, error)
+		buildEntity(input *UserInput) entities.User
+	}
 	RegisterValidator struct {
 		validator *validator.Validate
-	}
-	UserValidation interface {
-		validate(input UserInput) (bool, error)
-		buildModel(input UserInput) (entities.User, error)
 	}
 )
 
