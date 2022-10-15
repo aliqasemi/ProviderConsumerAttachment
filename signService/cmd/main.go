@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/aliqasemi/ProviderConsumerAttachment/signService/db"
 	"github.com/joho/godotenv"
@@ -12,6 +13,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	DB := db.ConnectPostgres(os.Getenv("DATABASE_DSN"))
-	fmt.Println(DB)
+	if err = db.ConnectPostgres(os.Getenv("DATABASE_DSN")); err == nil {
+		fmt.Println(db.GetDataBase())
+	}
+	str1 := flag.String("m", "", "set migration to 'all' value")
+	flag.Parse()
+	if *str1 == "all" {
+		db.MigratePostgres()
+	}
 }
