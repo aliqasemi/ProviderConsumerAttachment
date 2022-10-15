@@ -19,3 +19,8 @@ func (repo UserRepository) Create(user entities.User) (entities.User, error) {
 	result := repo.db.Create(&user)
 	return user, result.Error
 }
+
+func (repo UserRepository) Index() (user []entities.User, err error) {
+	result := repo.db.Take(&user)
+	return user, result.Error
+}

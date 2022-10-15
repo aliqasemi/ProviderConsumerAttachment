@@ -1,6 +1,9 @@
 package responses
 
-import "github.com/aliqasemi/ProviderConsumerAttachment/signService/internal/core/entities"
+import (
+	"fmt"
+	"github.com/aliqasemi/ProviderConsumerAttachment/signService/internal/core/entities"
+)
 
 type UserResponse struct {
 	ID          uint
@@ -13,9 +16,25 @@ type UserResponse struct {
 func User(user entities.User) UserResponse {
 	return UserResponse{
 		ID:          user.ID,
-		Name:        user.Firstname + user.Lastname,
+		Name:        fmt.Sprintf("%s %s", user.Firstname, user.Lastname),
 		Email:       user.Email,
 		PhoneNumber: user.ID,
 		Role:        user.Role,
 	}
+}
+
+func UserCollection(users []entities.User) []UserResponse {
+	var responses []UserResponse
+	var response UserResponse
+	for _, user := range users {
+		response = UserResponse{
+			ID:          user.ID,
+			Name:        fmt.Sprintf("%s %s", user.Firstname, user.Lastname),
+			Email:       user.Email,
+			PhoneNumber: user.ID,
+			Role:        user.Role,
+		}
+		responses = append(responses, response)
+	}
+	return responses
 }

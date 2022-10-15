@@ -8,6 +8,15 @@ import (
 	"net/http"
 )
 
+func Index(c echo.Context) error {
+	repo := repositories.UserRepositoryBuilder()
+	entityList, err := repo.Index()
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	return c.JSON(http.StatusOK, responses.UserCollection(entityList))
+}
+
 func Register(c echo.Context) error {
 	userInput := new(validation.UserInput)
 	if err := c.Bind(userInput); err != nil {
