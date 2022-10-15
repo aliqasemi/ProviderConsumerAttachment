@@ -25,16 +25,8 @@ func User(user entities.User) UserResponse {
 
 func UserCollection(users []entities.User) []UserResponse {
 	var responses []UserResponse
-	var response UserResponse
 	for _, user := range users {
-		response = UserResponse{
-			ID:          user.ID,
-			Name:        fmt.Sprintf("%s %s", user.Firstname, user.Lastname),
-			Email:       user.Email,
-			PhoneNumber: user.ID,
-			Role:        user.Role,
-		}
-		responses = append(responses, response)
+		responses = append(responses, User(user))
 	}
 	return responses
 }
