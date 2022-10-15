@@ -4,7 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"github.com/aliqasemi/ProviderConsumerAttachment/signService/db"
+	"github.com/aliqasemi/ProviderConsumerAttachment/signService/internal/handlers/routes"
 	"github.com/joho/godotenv"
+	"github.com/labstack/echo/v4"
 	"os"
 )
 
@@ -21,4 +23,9 @@ func main() {
 	if *str1 == "all" {
 		db.MigratePostgres()
 	}
+	e := echo.New()
+	if err = routes.SetRoutes(e); err != nil {
+		panic("router has problem")
+	}
+	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 }

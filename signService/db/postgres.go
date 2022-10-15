@@ -37,7 +37,7 @@ func GetDataBase() DB {
 
 func MigratePostgres() {
 	entitiesToMigrate := []any{
-		&entities.User{},
+		entities.User{},
 	}
 	if migrate := database.AutoMigrate(entitiesToMigrate...); migrate != nil {
 		panic("can not migrate the entities")
