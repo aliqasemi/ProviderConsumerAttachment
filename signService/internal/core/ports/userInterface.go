@@ -8,4 +8,5 @@ type UserInterface interface {
 	Find(uint) (entities.User, error)
 	Show(uint) (entities.User, error)
 	Update(uint, entities.User) (entities.User, error)
+	Delete(uint) error
 }

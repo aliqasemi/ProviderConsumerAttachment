@@ -39,3 +39,8 @@ func (repo UserRepository) Update(id uint, user entities.User) (entities.User, e
 	result := repo.db.Model(entities.User{ID: id}).Updates(&user)
 	return user, result.Error
 }
+
+func (repo UserRepository) Delete(id uint) error {
+	result := repo.db.Delete(entities.User{}, id)
+	return result.Error
+}
