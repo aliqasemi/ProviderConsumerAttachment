@@ -6,4 +6,5 @@ type UserInterface interface {
 	Index() ([]entities.User, error)
 	Create(entities.User) (entities.User, error)
 	Find(uint) (entities.User, error)
+	Show(uint) (entities.User, error)
 }

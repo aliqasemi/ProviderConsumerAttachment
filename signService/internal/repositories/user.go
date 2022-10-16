@@ -29,3 +29,8 @@ func (repo UserRepository) Find(phoneNumber uint) (user entities.User, err error
 	result := repo.db.Model(entities.User{PhoneNumber: phoneNumber}).First(&user)
 	return user, result.Error
 }
+
+func (repo UserRepository) Show(id uint) (user entities.User, err error) {
+	result := repo.db.Model(entities.User{ID: id}).First(&user)
+	return user, result.Error
+}

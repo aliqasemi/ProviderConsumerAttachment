@@ -76,3 +76,24 @@ func Login(c echo.Context) error {
 		"user":  responses.User(entity),
 	})
 }
+
+func Show(c echo.Context) error {
+	repo := repositories.UserRepositoryBuilder()
+	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	entity, err := repo.Show(uint(id))
+	return c.JSON(http.StatusOK, responses.User(entity))
+}
+
+func Auth(c echo.Context) error {
+	authContext := c.(*services.AuthContext)
+	repo := repositories.UserRepositoryBuilder()
+	id, err := strconv.ParseUint(authContext.GetUserId(), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+	}
+	entity, err := repo.Show(uint(id))
+	return c.JSON(http.StatusOK, responses.User(entity))
+}
