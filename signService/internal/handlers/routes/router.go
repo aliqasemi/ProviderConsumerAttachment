@@ -8,5 +8,6 @@ import (
 func SetRoutes(e *echo.Echo) error {
 	e.GET("/users", controllers.Index)
 	e.POST("/register", controllers.Register)
+	e.POST("/login", controllers.Login)
 	return nil
 }

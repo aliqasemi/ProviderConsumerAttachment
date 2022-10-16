@@ -1,11 +1,14 @@
 package controllers
 
 import (
+	"errors"
+	"github.com/aliqasemi/ProviderConsumerAttachment/signService/internal/core/services"
 	"github.com/aliqasemi/ProviderConsumerAttachment/signService/internal/handlers/http/responses"
 	validation "github.com/aliqasemi/ProviderConsumerAttachment/signService/internal/handlers/http/validations/user"
 	"github.com/aliqasemi/ProviderConsumerAttachment/signService/internal/repositories"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"strconv"
 )
 
 func Index(c echo.Context) error {
@@ -39,4 +42,37 @@ func Register(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, responses.User(entity))
+}
+
+func Login(c echo.Context) error {
+	loginInput := new(validation.LoginInput)
+	if err := c.Bind(loginInput); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	entity, err := loginInput.ValidateAndBuildEntity()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	repo := repositories.UserRepositoryBuilder()
+	if entity, err = repo.Find(entity.PhoneNumber); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	if err = entity.CheckPassword(loginInput.Password); err != nil {
+		return c.JSON(http.StatusUnauthorized, errors.New("invalid password"))
+	}
+
+	token, err := services.GenerateJWT(entity.Email, strconv.Itoa(int(entity.PhoneNumber)), strconv.Itoa(int(entity.ID)), entity.Role)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, echo.Map{
+		"token": token,
+		"user":  responses.User(entity),
+	})
 }

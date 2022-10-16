@@ -5,4 +5,5 @@ import "github.com/aliqasemi/ProviderConsumerAttachment/signService/internal/cor
 type UserInterface interface {
 	Index() ([]entities.User, error)
 	Create(entities.User) (entities.User, error)
+	Find(uint) (entities.User, error)
 }

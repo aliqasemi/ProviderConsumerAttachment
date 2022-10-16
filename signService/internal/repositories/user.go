@@ -20,7 +20,12 @@ func (repo UserRepository) Create(user entities.User) (entities.User, error) {
 	return user, result.Error
 }
 
-func (repo UserRepository) Index() (user []entities.User, err error) {
-	result := repo.db.Take(&user)
+func (repo UserRepository) Index() (users []entities.User, err error) {
+	result := repo.db.Take(&users)
+	return users, result.Error
+}
+
+func (repo UserRepository) Find(phoneNumber uint) (user entities.User, err error) {
+	result := repo.db.Model(entities.User{PhoneNumber: phoneNumber}).First(&user)
 	return user, result.Error
 }

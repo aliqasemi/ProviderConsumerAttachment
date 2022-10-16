@@ -1,6 +1,7 @@
 package entities
 
 import (
+	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )
@@ -18,6 +19,7 @@ type User struct {
 }
 
 func (user *User) HashPassword(password string) error {
+	fmt.Println(password)
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	if err != nil {
 		return err

@@ -18,7 +18,7 @@ func User(user entities.User) UserResponse {
 		ID:          user.ID,
 		Name:        fmt.Sprintf("%s %s", user.Firstname, user.Lastname),
 		Email:       user.Email,
-		PhoneNumber: user.ID,
+		PhoneNumber: user.PhoneNumber,
 		Role:        user.Role,
 	}
 }

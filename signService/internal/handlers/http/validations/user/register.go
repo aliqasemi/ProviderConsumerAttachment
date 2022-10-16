@@ -48,6 +48,7 @@ func (validator *RegisterValidator) buildEntity(input *UserInput) entities.User 
 		Lastname:    input.LastName,
 		Email:       input.Email,
 		PhoneNumber: input.PhoneNumber,
+		Password:    input.Password,
 	}
 	if input.Role == "" {
 		entity.Role = "user"
