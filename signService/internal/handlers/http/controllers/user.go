@@ -87,6 +87,27 @@ func Show(c echo.Context) error {
 	return c.JSON(http.StatusOK, responses.User(entity))
 }
 
+func Update(c echo.Context) error {
+	updateInput := new(validation.UserUpdateInput)
+	if err := c.Bind(updateInput); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	entity, err := updateInput.ValidateAndBuildEntity()
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	repo := repositories.UserRepositoryBuilder()
+	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	entity, err = repo.Update(uint(id), entity)
+	
+	return c.JSON(http.StatusOK, responses.User(entity))
+}
+
 func Auth(c echo.Context) error {
 	authContext := c.(*services.AuthContext)
 	repo := repositories.UserRepositoryBuilder()

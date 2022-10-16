@@ -14,6 +14,7 @@ func SetRoutes(e *echo.Echo) error {
 	authApi = authApi.Group("", middleware.ValidateToken())
 	authApi.GET("/users", controllers.Index, middleware.Authorize("user"))
 	authApi.GET("/users/:id", controllers.Show, middleware.Authorize("user"))
+	authApi.PUT("/users/:id", controllers.Update, middleware.Authorize("user"))
 	authApi.GET("/auth", controllers.Auth)
 	return nil
 }

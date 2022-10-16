@@ -7,4 +7,5 @@ type UserInterface interface {
 	Create(entities.User) (entities.User, error)
 	Find(uint) (entities.User, error)
 	Show(uint) (entities.User, error)
+	Update(uint, entities.User) (entities.User, error)
 }

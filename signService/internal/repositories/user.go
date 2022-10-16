@@ -34,3 +34,8 @@ func (repo UserRepository) Show(id uint) (user entities.User, err error) {
 	result := repo.db.Model(entities.User{ID: id}).First(&user)
 	return user, result.Error
 }
+
+func (repo UserRepository) Update(id uint, user entities.User) (entities.User, error) {
+	result := repo.db.Model(entities.User{ID: id}).Updates(&user)
+	return user, result.Error
+}
